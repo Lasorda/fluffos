@@ -39,6 +39,7 @@
 #include "grammar.autogen.h"
 
 #include "scratchpad.h"
+#include "include/runtime_config.h"
 
 // FIXME: in master.h
 extern struct object_t *master_ob;
@@ -1029,6 +1030,9 @@ static void handle_include(char *name, int global) {
     current_file_id = add_program_file(buf, 0);
     yyin_desc = f;
     refill_buffer();
+    if(CFG_INT(__RC_ENABLE_SYMBOL__)){
+      printf("include %s %d %s\n", current_file, current_line, name);
+    }
   } else {
     sprintf(buf, "Cannot #include %s", name);
     include_error(buf, global);
@@ -3474,6 +3478,9 @@ static void handle_define(char *yyt) {
   strcat(p, " ");
   q = namebuf;
   GETALPHA(p, q, namebuf + NSIZE - 1, "Invalid macro name");
+  if (CFG_INT(__RC_ENABLE_SYMBOL__)) {
+    printf("handle_define %s %d %s\n", current_file, current_line, yyt);
+  }
   if (*p == '(') { /* if "function macro" */
     int squote, dquote;
     int arg;

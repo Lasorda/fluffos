@@ -206,11 +206,17 @@ void pop_n_locals(int num) {
     ++lcur_start;
     ++ltype_start;
   }
+  if(CFG_INT(__RC_ENABLE_SYMBOL__)) {
+    fprintf(stdout, "pop_n_locals %s %d %d\n", current_file, current_line, num);
+  }
 }
 
 int add_local_name(const char *str, int type) {
   auto max_local_variables = CFG_INT(__MAX_LOCAL_VARIABLES__);
 
+  if(CFG_INT(__RC_ENABLE_SYMBOL__)) {
+    fprintf(stdout, "add_local_name %s %d %s\n", current_file, current_line, str);
+  }
   if (max_num_locals == max_local_variables) {
     yyerror("Too many local variables");
     return 0;

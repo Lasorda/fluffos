@@ -23,7 +23,7 @@ websocket http dir : ../src/www
 mud ip : 0.0.0.0
 
 # absolute pathname of mudlib
-mudlib directory : ./ # test #
+mudlib directory : /home/panzhihao/fluffos/testsuite/
 
 # debug.log and author/domain stats are stored here
 log directory : /log
@@ -355,6 +355,7 @@ enable gmcp : 1
 enable zmp : 1
 enable mssp : 1
 
+enable symbol : 1
 ###############################################################################
 #          The following aren't currently used or implemented (yet)           #
 ###############################################################################

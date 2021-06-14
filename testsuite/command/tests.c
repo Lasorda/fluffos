@@ -1,5 +1,9 @@
 #include <globals.h>
+#include "conf.h"
 
+#define FGetUser(uid, key) "xxx/xxx.c"->get_var(uid, key)
+#define PRE "xxx"
+#define NEXT PRE"vvvvvv"
 int execute(string fun);
 
 void recurse(string dir) {
