@@ -18,7 +18,7 @@
 FILE *output;
 
 void put_symbol(const char *file, int line, int op, const char* detail) {
-  fprintf(stdout, "op:%d %s %d %s\n", op, file, line, detail);
+  fprintf(output, "%d %s %d %s\n", op, file, line, detail);
 }
 
 int main(int argc, char** argv) {
@@ -26,6 +26,8 @@ int main(int argc, char** argv) {
     std::cerr << "Usage: symbol <config> lpc_file" << std::endl;
     return 1;
   }
+
+  output = fopen(argv[3], "w");
 
   // Initialize libevent, This should be done before executing LPC.
   auto base = init_main(argc, argv);
@@ -50,5 +52,6 @@ int main(int argc, char** argv) {
     return 1;
   }
   clear_state();
+  fclose(output);
   return 0;
 }
