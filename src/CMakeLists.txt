@@ -1,32 +1,32 @@
 # List of compile options to tweak
-option(MARCH_NATIVE "use march=native for GCC" ON)
+option(MARCH_NATIVE "use march=native for GCC" OFF)
 option(STATIC "Build static version of driver" OFF)
-option(USE_JEMALLOC "Build driver with jemalloc support" ON)
+option(USE_JEMALLOC "Build driver with jemalloc support" OFF)
 option(ENABLE_SANITIZER "Build driver with sanitizer support" OFF)
 # Packages
-option(PACKAGE_ASYNC "async package" ON)
-option(PACKAGE_COMPRESS "compress package" ON)
-option(PACKAGE_CONTRIB "contrib package" ON)
+option(PACKAGE_ASYNC "async package" OFF)
+option(PACKAGE_COMPRESS "compress package" OFF)
+option(PACKAGE_COFFTRIB "contrib package" OFF)
 # PACKAGE CORE should always be on
 set(PACKAGE_CORE ON)
-option(PACKAGE_CRYPTO "crypto package" ON)
-option(PACKAGE_DB "db package" ON)
-set(PACKAGE_DB_MYSQL "1" CACHE STRING "DB Type for Mysql")
+option(PACKAGE_CRYPTO "crypto package" OFF)
+option(PACKAGE_DB "db package" OFF)
+set(PACKAGE_DB_MYSQL "" CACHE STRING "DB Type for Mysql")
 set(PACKAGE_DB_POSTGRESQL "" CACHE STRING "DB Type for POSTGRESQL")
 set(PACKAGE_DB_SQLITE "" CACHE STRING "DB Type for SQLITE")
-set(PACKAGE_DB_DEFAULT_DB "1" CACHE STRING "Default DB Handle")
-option(PACKAGE_DEVELOP "compress package" ON)
-option(PACKAGE_MATH "math package" ON)
-option(PACKAGE_MATRIX "matrix package" ON)
-option(PACKAGE_MUDLIB_STATS "mudlib_stats package" ON)
+set(PACKAGE_DB_DEFAULT_DB "" CACHE STRING "Default DB Handle")
+option(PACKAGE_DEVELOP "compress package" OFF)
+option(PACKAGE_MATH "math package" OFF)
+option(PACKAGE_MATRIX "matrix package" OFF)
+option(PACKAGE_MUDLIB_STATS "mudlib_stats package" OFF)
 # Package OPS is always on
 set(PACKAGE_OPS ON)
-option(PACKAGE_PARSER "parser package" ON)
-option(PACKAGE_PCRE "pcre package" ON)
-option(PACKAGE_SHA1 "sha1 package" ON)
-option(PACKAGE_SOCKETS "sockets package" ON)
-option(PACKAGE_TRIM "trim package" ON)
-option(PACKAGE_UIDS "uids package" ON)
+option(PACKAGE_PARSER "parser package" OFF)
+option(PACKAGE_PCRE "pcre package" OFF)
+option(PACKAGE_SHA1 "sha1 package" OFF)
+option(PACKAGE_SOCKETS "sockets package" OFF)
+option(PACKAGE_TRIM "trim package" OFF)
+option(PACKAGE_UIDS "uids package" OFF)
 option(PACKAGE_EXTERNAL "external package" OFF)
 option(DEBUG OFF)
 option(DEBUGMALLOC ${DEBUG})
@@ -466,11 +466,11 @@ else()
   set(FLUFFOS_LINK -Wl,--start-group ${FLUFFOS_LIBRARIES} -Wl,--end-group)
 endif()
 
-add_executable(driver "main.cc")
-target_link_libraries(driver PUBLIC ${FLUFFOS_LINK})
+#add_executable(driver "main.cc")
+#target_link_libraries(driver PUBLIC ${FLUFFOS_LINK})
 
-add_executable(lpcc "main_lpcc.cc")
-target_link_libraries(lpcc PUBLIC ${FLUFFOS_LINK})
+#add_executable(lpcc "main_lpcc.cc")
+#target_link_libraries(lpcc PUBLIC ${FLUFFOS_LINK})
 
 add_executable(symbol "main_symbol.cc")
 target_link_libraries(symbol PUBLIC ${FLUFFOS_LINK})
@@ -480,8 +480,8 @@ include(helper)
 message("Final Compile Flags: ")
 print_target_properties(driver)
 
-install(TARGETS driver lpcc
-  RUNTIME DESTINATION bin)
+#install(TARGETS driver lpcc
+#  RUNTIME DESTINATION bin)
 
 # LPC stdlib files
 install(DIRECTORY ../testsuite/std
@@ -495,11 +495,11 @@ install(DIRECTORY include
 install(DIRECTORY www
         DESTINATION bin)
 
-if (NOT WIN32)
-  add_executable(portbind "portbind.cc")
-  install(TARGETS portbind
-    RUNTIME DESTINATION bin)
-endif ()
+#if (NOT WIN32)
+#  add_executable(portbind "portbind.cc")
+#  install(TARGETS portbind
+#    RUNTIME DESTINATION bin)
+#endif ()
 
 # Must keep this line at the end, so we get all the variables.
 CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)
