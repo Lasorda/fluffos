@@ -19,6 +19,7 @@
 #include "keyword.h"
 
 #include "vm/internal/base/machine.h"  // for error(), FIXME
+#include "symbol.h"
 
 #ifdef PACKAGE_MUDLIB_STATS
 #include "packages/mudlib_stats/mudlib_stats.h"
@@ -152,9 +153,7 @@ void free_all_local_names(int flag) {
   current_number_of_locals = 0;
   max_num_locals = 0;
 
-  if(CONFIG_INT(__RC_ENABLE_SYMBOL__)) {
-    fprintf(stdout, "%s %s %d \n", __FUNCTION__, current_file, current_line);
-  }
+  put_symbol(current_file, current_line, OP_FREE_LOCAL, "");
 }
 
 void deactivate_current_locals() {
@@ -191,6 +190,7 @@ void clean_up_locals() {
 void pop_n_locals(int num) {
   int lcur_start;
   int ltype_start, i1;
+  char tmp[20];
 
   DEBUG_CHECK(num < 0, "pop_n_locals called with num < 0");
   if (num == 0) {
@@ -210,17 +210,14 @@ void pop_n_locals(int num) {
     ++lcur_start;
     ++ltype_start;
   }
-  if(CONFIG_INT(__RC_ENABLE_SYMBOL__)) {
-    fprintf(stdout, "pop_n_locals %s %d %d\n", current_file, current_line, num);
-  }
+  sprintf(tmp, "%d", num);
+  put_symbol(current_file, current_line, OP_POP_LOCAL, tmp);
 }
 
 int add_local_name(const char *str, int type) {
   auto max_local_variables = CFG_INT(__MAX_LOCAL_VARIABLES__);
 
-  if(CONFIG_INT(__RC_ENABLE_SYMBOL__)) {
-    fprintf(stdout, "add_local_name %s %d %s\n", current_file, current_line, str);
-  }
+  put_symbol(current_file, current_line, OP_ADD_LOCAL, str);
   if (max_num_locals == max_local_variables) {
     yyerror("Too many local variables");
     return 0;
@@ -1229,6 +1226,9 @@ int define_new_function(const char *name, int num_arg, int num_local, int flags,
       }
     }
   }
+  if(flags & FUNC_PROTOTYPE) {
+    put_symbol(current_file, current_line, OP_NEW_FUNC, name);
+  }
   return newindex;
 }
 
@@ -1272,9 +1272,7 @@ int define_variable(const char *name, int type) {
   dummy->name = name;
   dummy->type = type;
 
-  if(CONFIG_INT(__RC_ENABLE_SYMBOL__)) {
-    fprintf(stdout, "define_variable %s %d %s\n", current_file, current_line, name);
-  }
+  put_symbol(current_file, current_line, OP_NEW_VAR, name);
   return n;
 }
 

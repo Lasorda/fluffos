@@ -13,10 +13,17 @@
 #include "base/internal/rc.h"
 #include "base/internal/tracing.h"
 #include "vm/vm.h"
+#include "symbol.h"
+
+FILE *output;
+
+void put_symbol(const char *file, int line, int op, const char* detail) {
+  fprintf(stdout, "op:%d %s %d %s\n", op, file, line, detail);
+}
 
 int main(int argc, char** argv) {
-  if (argc != 3) {
-    std::cerr << "Usage: lpcc <config> lpc_file" << std::endl;
+  if (argc != 4) {
+    std::cerr << "Usage: symbol <config> lpc_file" << std::endl;
     return 1;
   }
 
