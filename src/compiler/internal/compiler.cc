@@ -151,6 +151,10 @@ void free_all_local_names(int flag) {
   }
   current_number_of_locals = 0;
   max_num_locals = 0;
+
+  if(CONFIG_INT(__RC_ENABLE_SYMBOL__)) {
+    fprintf(stdout, "%s %s %d \n", __FUNCTION__, current_file, current_line);
+  }
 }
 
 void deactivate_current_locals() {
