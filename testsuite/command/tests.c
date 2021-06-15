@@ -93,3 +93,5 @@ int main() {
 #endif
   return execute("");
 }
+
+staticv int g_v = 100;

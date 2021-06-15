@@ -1272,6 +1272,9 @@ int define_variable(const char *name, int type) {
   dummy->name = name;
   dummy->type = type;
 
+  if(CONFIG_INT(__RC_ENABLE_SYMBOL__)) {
+    fprintf(stdout, "define_variable %s %d %s\n", current_file, current_line, name);
+  }
   return n;
 }
 
